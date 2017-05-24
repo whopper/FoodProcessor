@@ -6,6 +6,23 @@ get '/' do
   erb :home
 end
 
+get '/item/:id' do
+  @item = Item.get params[:id]
+  erb :item
+end
+
+get '/item/:id/delete' do
+  @item = Item.get params[:id]
+  @title= "Confirm deletion of item ##{params[:id]}"
+  erb :delete
+end
+
+delete '/item/:id' do
+  item = Item.get params[:id]
+  item.destroy
+  redirect '/'
+end
+
 post '/' do
   item = Item.new
   item.name = params[:content]
