@@ -1,4 +1,13 @@
-<div>
-  <br>
-  This is the home template. <%= @test %>.
-</div>
+<section id="add">
+  <form action="/" method="post">
+    <textarea name="content" placeholder="Item name"></textarea>
+    <input type="checkbox" name="required" value=true> Required
+    <input type="submit" value="Save item">
+  </form>
+</section>
+
+<% @items.each do |item| %>
+  <%= item.id %> <br>
+  <%= item.name %> <br>
+  <%= item.required %> <br>
+<% end %>
