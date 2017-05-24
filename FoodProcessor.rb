@@ -1,5 +1,6 @@
 require 'sinatra'
 
 get '/' do
-  'Hello World'
+  @test = 'Hello World'
+  erb :home
 end
