@@ -29,7 +29,7 @@ post '/' do
   event.name = params[:eventname]
   event.date = params[:date]
   link = Link.new
-  link.uid = SecureRandom.hex(6)
+#  link.uid = SecureRandom.hex(6)
   event.link = Link.get params[:id]
 end
 
@@ -71,7 +71,7 @@ class Link
   include DataMapper::Resource
 
   property :id, Serial
-  property :uid, :required => true, :unique => true
+#  property :uid, :required => true, :unique => true
   belongs_to :event
 end
 
