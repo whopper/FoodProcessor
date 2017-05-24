@@ -1,0 +1,8 @@
+<% if @item %>
+  <%= @item.id %> <br>
+  <%= @item.name %> <br>
+  <%= @item.required %> <br>
+  <p><a href="/item/<%= @item.id %>/delete">Delete</a></p>
+<% else %>
+  <p>Item not found.</p>
+<% end %>
