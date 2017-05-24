@@ -4,6 +4,7 @@ gem 'sinatra'
 gem 'shotgun'
 gem 'sqlite3'
 gem 'datamapper'
+gem 'securerandom'
 gem 'dm-sqlite-adapter'
 
 group :test, :development do
