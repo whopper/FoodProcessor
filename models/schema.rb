@@ -36,7 +36,7 @@ class Link
   include DataMapper::Resource
 
   property :id, Serial
-  property :url, Text, :required => true, :unique => true, :default => SecureRandom.hex(6)
+  property :url, Text, :required => true, :unique => true
   belongs_to :event
 end
 

@@ -42,6 +42,7 @@ post '/events/create' do
   event.date = params[:eventdate]
   event.location = params[:location]
   link = Link.new
+  link.url = "#{request.base_url}/invite/#{SecureRandom.hex(6)}"
   link.save
   event.link = link.id
   event.save
