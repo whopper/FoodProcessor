@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'securerandom'
 require 'data_mapper'
 
 get '/' do
@@ -24,11 +25,12 @@ delete '/item/:id' do
 end
 
 post '/' do
-  item = Item.new
-  item.name = params[:content]
-  item.required = params[:required].nil? ? false : params[:required]
-  item.save
-  redirect '/'
+  event = Event.new
+  event.name = params[:eventname]
+  event.date = params[:date]
+  link = Link.new
+#  link.uid = SecureRandom.hex(6)
+  event.link = Link.get params[:id]
 end
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/foodprocessor.db")
@@ -69,6 +71,7 @@ class Link
   include DataMapper::Resource
 
   property :id, Serial
+#  property :uid, :required => true, :unique => true
   belongs_to :event
 end
 
