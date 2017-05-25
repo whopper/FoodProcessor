@@ -1,10 +1,17 @@
 require 'sinatra'
 require 'securerandom'
 require 'data_mapper'
+require 'pony'
+require_relative 'lib/foodprocessor.rb'
 
 get '/' do
   @events = Event.all :order => :id.desc
   erb :home
+end
+
+get '/event/new' do
+  @event = Event.new
+  erb :event
 end
 
 get '/item/:id' do
@@ -37,6 +44,15 @@ post '/events/create' do
   link.save
   event.link = link.id
   event.save
+
+  # TODO remove all this
+  params[:name] = event.name
+  params[:username] = 'Todd'
+  params[:owner_name] = 'Will Hopper'
+  params[:link] = 'https://brownbag.io/events/AedfbY'
+  params[:email] = 'william.vanhevelingen@acquia.com'
+  FoodProcessor::Invite.send_email(params)
+
   redirect '/events'
 end
 
