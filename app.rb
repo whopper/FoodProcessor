@@ -2,6 +2,7 @@ require 'sinatra'
 require 'securerandom'
 require 'data_mapper'
 require 'pony'
+require 'pry'
 require_relative 'lib/foodprocessor.rb'
 require_relative 'models/schema.rb'
 
@@ -36,6 +37,20 @@ delete '/item/:id' do
   redirect '/'
 end
 
+get '/events' do
+  @events = Event.all order: :id.desc
+  erb :events
+end
+
+get '/events/:id/edit' do
+  @event = Event.get params[:id]
+  erb :event
+end
+
+put '/events/:id/edit' do
+  event = Event.get params[:id]
+end
+
 post '/events/create' do
   event = Event.new
   event.name = params[:title]
@@ -47,25 +62,28 @@ post '/events/create' do
   event.link = link
 
   # make an owner
-  owner = Owner.new
-  owner.name = 'Will Hopper'
-  owner.email = 'willliam.hopper@acquia.com'
-  # owner.save
+  owner = User.first(:email => params[:email])
+  if !owner
+    owner = Owner.new
+    owner.name = params[:name]
+    owner.email = params[:email]
+    owner.save
+  end
   event.owner = owner
 
   # make a guest
-  guest = User.new
-  guest.name = 'William Van Hevelingen'
-  guest.email = 'william.vanhevelingen@acquia.com'
+  # guest = User.new
+  # guest.name = 'William Van Hevelingen'
+  # guest.email = 'william.vanhevelingen@acquia.com'
   # guest.save
-  event.guests << guest
+  # event.guests << guest
 
   # save
   event.save
 
-  event.guests.each do |guest|
-    FoodProcessor::Invite.send_email(event, guest)
-  end
+  # event.guests.each do |guest|
+  #   FoodProcessor::Invite.send_email(event, guest)
+  # end
 
   redirect "/events/#{event.id}"
 end

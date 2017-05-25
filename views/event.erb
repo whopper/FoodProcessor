@@ -1,0 +1,15 @@
+<% if @event %>
+  <form action="/events/<%=@event.id %>/edit" method="post" id="edit">
+    <input type="hidden" name="_method" value="put">
+    <textarea name="Event Name"><%= @event.name %></textarea>
+    <%= @event.date %>
+    <%= @event.location %>
+    <textarea name="Event Location"><%= @event.location %></textarea>
+    <%= @event.guests %>
+    <%= @event.items %>
+    <input type="submit">
+  </form>
+  <p><a href="/events/<%= @event.id %>">Cancel</a></p>
+<% else %>
+    <p>Event not found</p>
+<% end %>

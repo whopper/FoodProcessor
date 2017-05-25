@@ -64,3 +64,4 @@ end
 
 DataMapper.finalize.auto_upgrade!
 User.raise_on_save_failure = true
+Event.raise_on_save_failure = true
