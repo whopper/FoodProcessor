@@ -29,7 +29,7 @@ class Event
   has n, :eventRelGuest
   has n, :guests, 'User', through: :eventRelGuest, via: :user
   property :id, Serial
-  property :name, Text, required: true, unique: true
+  property :name, Text, required: true
   property :date, DateTime, required: true
   property :created_at, DateTime, required: true, default: ->(_p, _s) { DateTime.now }
   property :location, Text
@@ -48,7 +48,7 @@ class User
 
   property :id, Serial
   property :name, Text, required: true
-  property :email, Text, required: true
+  property :email, Text, required: true, unique: true
   belongs_to :event
 end
 
