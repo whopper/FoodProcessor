@@ -38,8 +38,8 @@ end
 
 post '/events/create' do
   event = Event.new
-  event.name = params[:eventname]
-  event.date = params[:eventdate]
+  event.name = params[:title]
+  event.date = params[:date]
   event.location = params[:location]
   link = Link.new
   link.url = "#{request.base_url}/invite/#{SecureRandom.hex(6)}"
@@ -67,5 +67,5 @@ post '/events/create' do
     FoodProcessor::Invite.send_email(event, guest)
   end
 
-  redirect '/events'
+  redirect "/events/#{event.id}"
 end
