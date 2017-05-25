@@ -64,17 +64,17 @@ post '/events/:id/add_ingredients' do
   items = params.keys.length / 4
   item_hash = {}
   (1..items).each do |n|
-    temp_hash = params.select { |key, value| key.match(/_#{n}/) }
+    temp_hash = params.select { |key, _value| key.match(/_#{n}/) }
     top_key = temp_hash["item_#{n}"]
-    item_hash[temp_hash["item_#{n}"]] = {'quantity' => temp_hash["quantity_#{n}"], 'price' => temp_hash["price_#{n}"], 'required' => temp_hash["required_#{n}"] == 'Required' ? true : false}
+    item_hash[temp_hash["item_#{n}"]] = { 'quantity' => temp_hash["quantity_#{n}"], 'price' => temp_hash["price_#{n}"], 'required' => temp_hash["required_#{n}"] == 'Required' ? true : false }
   end
   @event = Event.get params[:id]
-  item_hash.each do |k,v|
+  item_hash.each do |k, v|
     item = Item.new
     item.name = k
-    item.quantity = v["quantity"]
-    item.required = v["required"]
-    item.price = v["price"]
+    item.quantity = v['quantity']
+    item.required = v['required']
+    item.price = v['price']
     item.event_id = @event.id
     item.save
     @event.items << item
