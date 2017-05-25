@@ -25,6 +25,9 @@ class Event
 
   has n, :items
   has 1, :link
+  has 1, :owner
+  has n, :eventRelGuest
+  has n, :guests, 'User', :through => :eventRelGuest, :via => :user
   property :id, Serial
   property :name, Text, :required => true, :unique => true
   property :date, DateTime, :required => true
@@ -46,7 +49,19 @@ class User
   property :id, Serial
   property :name, Text, :required => true
   property :email, Text, :required => true
+  belongs_to :event
 end
+
+class EventRelGuest
+   include DataMapper::Resource
+
+   belongs_to :event, :key => true
+   belongs_to :user, :key => true
+end
+
+class Owner < User
+end
+
 
 DataMapper.finalize.auto_upgrade!
 User.raise_on_save_failure=true

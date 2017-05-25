@@ -1,10 +1,10 @@
-Hello <%= params[:username] %>,
+Hello <%= guest.name %>,
 
-<%= params[:owner_name] %> has a created a new event!
+<%= event.owner.name %> has a created a new event!
 
 Click on the link to signup to bring an ingredient.
 
-<%= params[:link] %>
+<%= event.link.url %>
 
 --
 The Brownbag Team
