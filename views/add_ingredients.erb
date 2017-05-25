@@ -1,0 +1,55 @@
+<!-- Outer box -->
+<div class="form-style-8">
+  <h2 class='acquia-blue'><%= @event.name %></h2>
+  <form id='ingredient_form' method="POST" action="/events/<%=@event.id%>/edit" style='color: black;'>
+
+    <div id='ingredient_form_fields'>
+      <div style='float: left; width: 39%;'>
+        <div class='form-group has-feedback'>
+          <input type="text" name="item_1" id='item_input_1' placeholder="Item" />
+          <i style='color: gray;' class='glyphicon glyphicon-cutlery form-control-feedback'></i>
+        </div>
+      </div>
+
+      <div style='float: left; width: 16%; margin-left: 10px;'>
+        <div class='form-group has-feedback'>
+          <input type="text" name="quantity_1" id='quantity_input_1' placeholder="#" />
+          <i style='color: gray;' class='glyphicon glyphicon-th form-control-feedback'></i>
+        </div>
+      </div>
+
+      <div style='float: left; width: 16%; margin-left: 10px;'>
+        <div class='form-group has-feedback'>
+          <input type="text" name="price_1" id='price_input_1' placeholder="$" />
+          <i style='color: gray;' class='glyphicon glyphicon-tags form-control-feedback'></i>
+        </div>
+      </div>
+
+      <div style='float: left; width: 22%; margin-left: 10px;'>
+        <div class='form-group has-feedback'>
+          <select class='form-control' id='required_input_1' name='required_1'>
+            <option>Required</option>
+            <option>Optional</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div style='float: left; width: 10%;'>
+      <button type='button' class='btn btn-default' onclick='add_row()'>
+        <span class='glyphicon glyphicon-plus'></span>
+      </button>
+    </div>
+
+    <input type="submit" value="Add Ingredients!" style='margin-top: 40px;' />
+  </form>
+</div>
+
+<script type="text/javascript">
+  function add_row() {
+    var index = ($('#ingredient_form_fields .form-group').length / 4) + 1;
+    console.log(index)
+    var d1 = document.getElementById('ingredient_form_fields')
+    d1.insertAdjacentHTML('beforeend', "<div style='float: left; width: 39%;'><div class='form-group has-feedback'><input type='text' name='item_" + index + "' id='item_input_" + index + "' placeholder='Item' /><i style='color: gray;' class='glyphicon glyphicon-cutlery form-control-feedback'></i></div></div><div style='float: left; width: 16%; margin-left: 10px;'><div class='form-group has-feedback'><input type='text' name='quantity_" + index + "' id='quantity_input_" + index +  "' placeholder='#' /><i style='color: gray;' class='glyphicon glyphicon-th form-control-feedback'></i></div></div><div style='float: left; width: 16%; margin-left: 10px;'><div class='form-group has-feedback'><input type='text' name='price_" + index + "' id='price_input_" + index + "' placeholder='$' /><i style='color: gray;' class='glyphicon glyphicon-tags form-control-feedback'></i></div></div><div style='float: left; width: 22%; margin-left: 10px;'><div class='form-group has-feedback'><select class='form-control' name='required_" + index + "' id='required_input_" + index +"'><option>Required</option><option>Optional</option></select></div></div>");
+}
+</script>
+

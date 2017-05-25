@@ -44,10 +44,18 @@ end
 
 get '/events/:id/edit' do
   @event = Event.get params[:id]
-  erb :event
+  erb :add_ingredients
 end
 
-put '/events/:id/edit' do
+post '/events/:id/edit' do
+  items = params.keys.length / 4
+  item_hash = {}
+  (1..items).each do |n|
+    temp_hash = params.select { |key, value| key.match(/_#{n}/) }
+    top_key = temp_hash["item_#{n}"]
+    item_hash[temp_hash["item_#{n}"]] = {'quantity' => temp_hash["quantity_#{n}"], 'price' => temp_hash["price_#{n}"], 'required' => temp_hash["required_#{n}"] == 'Required' ? true : false}
+  end
+
   event = Event.get params[:id]
 end
 
@@ -85,5 +93,6 @@ post '/events/create' do
   #   FoodProcessor::Invite.send_email(event, guest)
   # end
 
-  redirect "/events/#{event.id}"
+  @title = event.name
+  redirect "/events/#{event.id}/edit"
 end
