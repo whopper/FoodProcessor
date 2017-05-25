@@ -44,16 +44,28 @@ post '/events/create' do
   link = Link.new
   link.url = "#{request.base_url}/invite/#{SecureRandom.hex(6)}"
   link.save
-  event.link = link.id
+  event.link = link
+
+  # make an owner
+  owner = Owner.new
+  owner.name = 'Will Hopper'
+  owner.email = 'willliam.hopper@acquia.com'
+  #owner.save
+  event.owner = owner
+
+  # make a guest
+  guest = User.new
+  guest.name = 'William Van Hevelingen'
+  guest.email = 'william.vanhevelingen@acquia.com'
+  #guest.save
+  event.guests << guest
+
+  # save
   event.save
 
-  # TODO remove all this
-  params[:name] = event.name
-  params[:username] = 'Todd'
-  params[:owner_name] = 'Will Hopper'
-  params[:link] = 'https://brownbag.io/events/AedfbY'
-  params[:email] = 'william.vanhevelingen@acquia.com'
-  FoodProcessor::Invite.send_email(params)
+  event.guests.each do |guest|
+    FoodProcessor::Invite.send_email(event, guest)
+  end
 
   redirect '/events'
 end
