@@ -37,6 +37,13 @@ delete '/item/:id' do
   redirect '/'
 end
 
+get '/invite/:url' do
+  @link = Link.first(url: "#{request.base_url}/invite/#{params[:url]}")
+  @event = Event.get @link.id
+  # TODO: place for guest to claim ingredients. For now, it redirects to events/:id
+  redirect "/events/#{@event.id}"
+end
+
 get '/events' do
   @events = Event.all order: :id.desc
   erb :events
