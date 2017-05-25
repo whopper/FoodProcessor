@@ -80,8 +80,8 @@ post '/events/claim/:id' do
   @event.save
 
   items = Item.all(event_id: @event.id)
-  unclaimed = items.all(:user_id => nil)
-  FoodProcessor::Invite.send_email(@event, guest, "all_claimed") if unclaimed == []
+  unclaimed = items.all(user_id: nil)
+  FoodProcessor::Invite.send_email(@event, guest, 'all_claimed') if unclaimed == []
   redirect "/events/#{@event.id}"
 end
 
@@ -133,7 +133,7 @@ post '/events/:id/invite' do
   guest.save
   @event.guests << guest
   @event.save
-  FoodProcessor::Invite.send_email(@event, guest, "invited")
+  FoodProcessor::Invite.send_email(@event, guest, 'invited')
   redirect "/events/#{@event.id}"
 end
 
@@ -161,7 +161,7 @@ post '/events/create' do
   event.save
 
   event.guests.each do |guest|
-    FoodProcessor::Invite.send_email(event, guest, "invited")
+    FoodProcessor::Invite.send_email(event, guest, 'invited')
   end
 
   @title = event.name
