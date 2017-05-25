@@ -32,9 +32,11 @@
        <table class="table">
          <thead>
            <tr>
-             <th>Name</th>
+             <th>Item</th>
              <th>Quantity</th>
+             <th>Price/Unit</th>
              <th>Required?</th>
+             <th>Claimed</th>
            </tr>
          </thead>
          <tbody>
@@ -42,7 +44,9 @@
              <tr>
                <th scope="row"><%= item.name %></th>
                <td><%= item.quantity %></td>
+               <td><%= item.price %></td>
                <td><%= item.required %></td>
+               <td style='cursor: pointer;'><button class='open-ClaimModal btn btn-primary' type="button" data-toggle="modal" data-target="#myModal" onclick="document.getElementById('item_id').value = <%= item.id %>">Claim Me!</button></td>
              <tr>
            <% end %>
          </tbody>
@@ -59,3 +63,43 @@
    <% end %>
  </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Claim Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-style-8">
+          <form method="POST" action='/event/<%= @event.id %>' style='color: black;'>
+
+            <input type="hidden" name="item_id" id="item_id" value="">
+
+            <div class='form-group has-feedback'>
+              <input type="text" name="name" id='name_input' placeholder="Name" />
+              <i style='color: gray;' class='glyphicon glyphicon-pencil form-control-feedback'></i>
+            </div>
+
+            <div class='form-group has-feedback'>
+              <input type="text" name="email" id='email_input' placeholder="Email" />
+              <i style='color: gray;' class='glyphicon glyphicon-envelope form-control-feedback'></i>
+            </div>
+
+            <span id='temp_id'></span>
+
+            <input type="submit" value="Claim!" />
+          </form>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
