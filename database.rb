@@ -18,6 +18,10 @@ get '/item/:id/delete' do
   erb :delete
 end
 
+get '/events/create' do
+  erb :create_event
+end
+
 delete '/item/:id' do
   item = Item.get params[:id]
   item.destroy
@@ -27,13 +31,13 @@ end
 post '/events/create' do
   event = Event.new
   event.name = params[:eventname]
-  event.date = DateTime.now
+  event.date = params[:eventdate]
   event.location = params[:location]
   link = Link.new
   link.save
   event.link = link.id
   event.save
-  redirect '/'
+  redirect '/events'
 end
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/foodprocessor.db")
