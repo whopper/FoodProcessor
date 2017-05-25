@@ -46,7 +46,11 @@
                <td><%= item.quantity %></td>
                <td><%= item.price %></td>
                <td><%= item.required %></td>
-               <td style='cursor: pointer;'><button class='open-ClaimModal btn btn-primary' type="button" data-toggle="modal" data-target="#myModal" onclick="document.getElementById('item_id').value = <%= item.id %>">Claim Me!</button></td>
+               <% if item.user_id.nil? %>
+                <td style='cursor: pointer;'><button class='open-ClaimModal btn btn-primary' type="button" data-toggle="modal" data-target="#myModal" onclick="document.getElementById('item_id').value = <%= item.id %>">Claim Me!</button></td>
+              <% else %>
+                <td><%= User.get(item.user_id).name %></td>
+              <% end %>
              <tr>
            <% end %>
          </tbody>
@@ -75,7 +79,7 @@
       </div>
       <div class="modal-body">
         <div class="form-style-8">
-          <form method="POST" action='/event/<%= @event.id %>' style='color: black;'>
+          <form method="POST" action='/events/claim/<%= @event.id %>' style='color: black;'>
 
             <input type="hidden" name="item_id" id="item_id" value="">
 

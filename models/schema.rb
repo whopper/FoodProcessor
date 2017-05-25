@@ -19,7 +19,7 @@ class Item
   property :price, Float, required: true, default: 0
   property :quantity, Integer, required: true, default: 1
   belongs_to :event
-  belongs_to :user
+  belongs_to :user, :required => false
 end
 
 class Event

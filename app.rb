@@ -55,7 +55,7 @@ get '/events/:id' do
   erb :event
 end
 
-post '/events/:id' do
+post '/events/claim/:id' do
   # assign/claim ingredients
   @event = Event.get params[:id]
   guest = User.first(email: params[:email])
@@ -64,6 +64,7 @@ post '/events/:id' do
     guest.email = params[:email]
     guest.name = params[:name]
   end
+
   guest.event_id = @event.id
   item = Item.get params[:item_id]
   guest.items << item
@@ -74,11 +75,9 @@ post '/events/:id' do
   @event.save
 
   items = Item.all(event_id: @event.id)
-  unclaimed = items.all(user_id=nil)
-  FoodProcessor::Invite.send_email(@event, guest, all_claimed) unless unclaimed
+  #unclaimed = items.all(user_id=nil)
+  #FoodProcessor::Invite.send_email(@event, guest, all_claimed) unless unclaimed
   redirect "/events/#{@event.id}"
-end
-
 end
 
 get '/events/:id/add_ingredients' do
@@ -94,7 +93,9 @@ post '/events/:id/add_ingredients' do
     top_key = temp_hash["item_#{n}"]
     item_hash[temp_hash["item_#{n}"]] = {'quantity' => temp_hash["quantity_#{n}"], 'price' => temp_hash["price_#{n}"], 'required' => temp_hash["required_#{n}"] == 'Required' ? true : false}
   end
+
   @event = Event.get params[:id]
+
   item_hash.each do |k,v|
     item = Item.new
     item.name = k
