@@ -55,6 +55,31 @@ get '/events/:id' do
   erb :event
 end
 
+post '/events/claim/:id' do
+  # assign/claim ingredients
+  @event = Event.get params[:id]
+  guest = User.first(email: params[:email])
+  unless guest
+    guest = User.new
+    guest.email = params[:email]
+    guest.name = params[:name]
+  end
+
+  guest.event_id = @event.id
+  item = Item.get params[:item_id]
+  guest.items << item
+  guest.save
+  item.user_id = guest.id
+  item.save
+  @event.guests << guest
+  @event.save
+
+  items = Item.all(event_id: @event.id)
+  # unclaimed = items.all(user_id=nil)
+  # FoodProcessor::Invite.send_email(@event, guest, all_claimed) unless unclaimed
+  redirect "/events/#{@event.id}"
+end
+
 get '/events/:id/add_ingredients' do
   @event = Event.get params[:id]
   erb :add_ingredients
@@ -68,7 +93,9 @@ post '/events/:id/add_ingredients' do
     top_key = temp_hash["item_#{n}"]
     item_hash[temp_hash["item_#{n}"]] = { 'quantity' => temp_hash["quantity_#{n}"], 'price' => temp_hash["price_#{n}"], 'required' => temp_hash["required_#{n}"] == 'Required' ? true : false }
   end
+
   @event = Event.get params[:id]
+
   item_hash.each do |k, v|
     item = Item.new
     item.name = k
@@ -124,13 +151,6 @@ post '/events/create' do
     owner.save
   end
   event.owner = owner
-
-  # make a guest
-  # guest = User.new
-  # guest.name = 'William Van Hevelingen'
-  # guest.email = 'william.vanhevelingen@acquia.com'
-  # guest.save
-  # event.guests << guest
 
   # save
   event.save
