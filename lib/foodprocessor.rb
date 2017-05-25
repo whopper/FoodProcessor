@@ -6,8 +6,8 @@ module FoodProcessor
       result = t.result(binding)
       Pony.mail(
         to: guest.email,
-        from: 'brownbag@acquia.com',
-        subject: "Register for new brownbag #{event.name} event!",
+        from: 'crunch@acquia.com',
+        subject: "Register for new Crunch #{event.name} event!",
         body: result
       )
     end
