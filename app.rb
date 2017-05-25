@@ -35,8 +35,13 @@ end
 get '/invite/:url' do
   @link = Link.first(url: "#{request.base_url}/invite/#{params[:url]}")
   @event = Event.get @link.id
-  # TODO: place for guest to claim ingredients. For now, it redirects to events/:id
-  redirect "/events/#{@event.id}"
+  if @event
+    @owner = Owner.get @event.owner.id
+    @link = Link.get @event.link.id
+    @guests = User.all(event_id: @event.id)
+    @items = Item.all(event_id: @event.id)
+  end
+  erb :invite
 end
 
 get '/events' do
