@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'shotgun'
@@ -11,8 +11,8 @@ gem 'pony'
 group :test, :development do
   gem 'rake'
   gem 'rspec'
-  gem "rack-test", require: "rack/test"
+  gem 'rack-test', require: 'rack/test'
   gem 'pry'
   gem 'pry-nav'
+  gem 'rubocop'
 end
-
