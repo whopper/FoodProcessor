@@ -11,11 +11,6 @@ get '/' do
   erb :home
 end
 
-get '/event/new' do
-  @event = Event.new
-  erb :event
-end
-
 get '/item/:id' do
   @item = Item.get params[:id]
   erb :item
@@ -51,9 +46,11 @@ end
 
 get '/events/:id' do
   @event = Event.get params[:id]
-  @owner = Owner.get @event.owner.id
-  @link = Link.get @event.link.id
-  @guests = User.all(event_id: @event.id)
+  if @event
+    @owner = Owner.get @event.owner.id
+    @link = Link.get @event.link.id
+    @guests = User.all(event_id: @event.id)
+  end
   erb :event
 end
 

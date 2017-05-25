@@ -1,18 +1,59 @@
-<% if @event %>
-    <%= @event.date %>
-    <%= @event.location %>
-    <%= @event.guests %>
-    <%= @event.items %>
-    <%= @link.url %>
-    <%= @owner.email %>
-    <br>
-    <% @guests.each do |guest| %>
-    <%= "#{guest.name} #{guest.email}" %>
-    <br>
-    <% end %>
-  </form>
-  <p><a href="/events/<%= @event.id %>/edit">Edit</a></p>
-  <p><a href="/events/<%= @event.id %>/invite">Invite</a></p>
-<% else %>
-    <p>Event not found</p>
-<% end %>
+<!-- Outer box -->
+ <div class="form-style-8">
+   <% if @event %>
+     <h2 class='acquia-blue'>Event: <%=@event.name %></h2>
+     <h4 style='color:black'>
+       Location: <%= @event.location %><p>
+       Date: <%= @event.date %><p>
+       Organizer: <%= @owner.name %><p>
+       Invite Link: <%= @link.url %><p>
+       Guests: <p>
+     </h4>
+     <body style='color:black'>
+       <table class="table">
+         <thead>
+           <tr>
+             <th>Name</th>
+             <th>Email</th>
+           </tr>
+         </thead>
+         <tbody>
+           <% @guests.each do |guest| %>
+             <tr>
+               <th scope="row"><%= guest.name %></th>
+               <td><%= guest.email %></td>
+             <tr>
+           <% end %>
+         </tbody>
+       </table>
+     </body>
+     <h4 style='color:black'>Items:</h4>
+     <body style='color:black'>
+       <table class="table">
+         <thead>
+           <tr>
+             <th>Name</th>
+             <th>Quantity</th>
+             <th>Required?</th>
+           </tr>
+         </thead>
+         <tbody>
+           <% @guests.each do |guest| %>
+             <tr>
+               <th scope="row"><%= guest.name %></th>
+               <td><%= guest.email %></td>
+             <tr>
+           <% end %>
+         </tbody>
+       </table>
+     </body>
+ 
+     <a href="/events/<%= @event.id %>/edit" class="btn btn-lg btn-primary">Edit Event</a>
+     <a href="/events/<%= @event.id %>/invite" class="btn btn-lg btn-primary">Invite Guests</a>
+   </p>
+   <% else %>
+   <h2 class='acquia blue'>Event Not Found</h2>
+     <a href="/events" class="btn btn-lg btn-primary">Return to Events</a>
+   <% end %>
+ </div>
+
