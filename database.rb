@@ -3,7 +3,7 @@ require 'securerandom'
 require 'data_mapper'
 
 get '/' do
-  @items = Item.all :order => :id.desc
+  @events = Event.all :order => :id.desc
   erb :home
 end
 
@@ -24,13 +24,16 @@ delete '/item/:id' do
   redirect '/'
 end
 
-post '/' do
+post '/events/create' do
   event = Event.new
   event.name = params[:eventname]
-  event.date = params[:date]
+  event.date = DateTime.now
+  event.location = params[:location]
   link = Link.new
-#  link.uid = SecureRandom.hex(6)
-  event.link = Link.get params[:id]
+  link.save
+  event.link = link.id
+  event.save
+  redirect '/'
 end
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/foodprocessor.db")
@@ -71,7 +74,7 @@ class Link
   include DataMapper::Resource
 
   property :id, Serial
-#  property :uid, :required => true, :unique => true
+  property :url, Text, :required => true, :unique => true, :default => SecureRandom.hex(6)
   belongs_to :event
 end
 
