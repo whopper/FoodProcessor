@@ -19,6 +19,7 @@ class Item
   property :price, Float, required: true, default: 0
   property :quantity, Integer, required: true, default: 1
   belongs_to :event
+  belongs_to :user, :required => false
 end
 
 class Event
@@ -47,6 +48,7 @@ end
 class User
   include DataMapper::Resource
 
+  has n, :items
   property :id, Serial
   property :name, Text, required: true
   property :email, Text, required: true, unique: true
