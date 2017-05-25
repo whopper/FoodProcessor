@@ -2,11 +2,6 @@
   <%= event.id %>
   <%= event.name %>
   <%= event.date %>
-  <%= event.created_at %>
   <%= event.location %>
-  <%= event.link %>
-  <%= event.owner %>
-  <%= event.guests %>
-  <%= event.items %><p>
-  <a href="/events/<%= event.id %>/edit">[edit]</a><p>
+  <a href="/events/<%= event.id %>">View</a><p>
 <% end %>

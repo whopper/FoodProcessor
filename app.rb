@@ -42,8 +42,10 @@ get '/events' do
   erb :events
 end
 
-get '/events/:id/edit' do
+get '/events/:id' do
   @event = Event.get params[:id]
+  @owner = Owner.get @event.owner.id
+  @link = Link.get @event.link.id
   erb :event
 end
 
