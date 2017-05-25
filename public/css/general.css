@@ -1,0 +1,40 @@
+body {
+  background-image: url('potluck.jpg');
+}
+
+.background-dark {
+  background-color: rgba(5, 4, 2, 0.5);
+}
+
+.background-header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.nav-text {
+  margin-top: 23px;
+}
+
+.background-content {
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+@media (min-width: 40em) {
+  .background-header {
+    height: 75px;
+  }
+}
+
+@media (min-width: 62em) {
+  .background-header {
+    height: 50px;
+  }
+}
+
+.acquia-blue {
+  color: #67cffc;
+}
