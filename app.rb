@@ -55,6 +55,32 @@ get '/events/:id' do
   erb :event
 end
 
+post '/events/:id' do
+  # assign/claim ingredients
+  @event = Event.get params[:id]
+  guest = User.first(email: params[:email])
+  unless guest
+    guest = User.new
+    guest.email = params[:email]
+    guest.name = params[:name]
+  end
+  guest.event_id = @event.id
+  item = Item.get params[:item_id]
+  guest.items << item
+  guest.save
+  item.user_id = guest.id
+  item.save
+  @event.guests << guest
+  @event.save
+
+  items = Item.all(event_id: @event.id)
+  unclaimed = items.all(user_id=nil)
+  FoodProcessor::Invite.send_email(@event, guest, all_claimed) unless unclaimed
+  redirect "/events/#{@event.id}"
+end
+
+end
+
 get '/events/:id/add_ingredients' do
   @event = Event.get params[:id]
   erb :add_ingredients
@@ -101,7 +127,7 @@ post '/events/:id/invite' do
   guest.save
   @event.guests << guest
   @event.save
-  FoodProcessor::Invite.send_email(@event, guest)
+  FoodProcessor::Invite.send_email(@event, guest, invitation)
   redirect "/events/#{@event.id}"
 end
 
