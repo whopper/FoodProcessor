@@ -46,11 +46,33 @@ get '/events/:id' do
   @event = Event.get params[:id]
   @owner = Owner.get @event.owner.id
   @link = Link.get @event.link.id
+  @guests = User.all(event_id: @event.id)
   erb :event
 end
 
 put '/events/:id/edit' do
   event = Event.get params[:id]
+end
+
+get '/events/:id/invite' do
+  @event = Event.get params[:id]
+  erb :invite_users
+end
+
+post '/events/:id/invite' do
+  @event = Event.get params[:id]
+  guest = User.first(email: params[:email])
+  unless guest
+    guest = User.new
+    guest.email = params[:email]
+    guest.name = params[:name]
+  end
+  guest.event_id = @event.id
+  guest.save
+  @event.guests << guest
+  @event.save
+  FoodProcessor::Invite.send_email(@event, guest)
+  redirect "/events/#{@event.id}"
 end
 
 post '/events/create' do

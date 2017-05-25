@@ -5,8 +5,14 @@
     <%= @event.items %>
     <%= @link.url %>
     <%= @owner.email %>
+    <br>
+    <% @guests.each do |guest| %>
+    <%= "#{guest.name} #{guest.email}" %>
+    <br>
+    <% end %>
   </form>
   <p><a href="/events/<%= @event.id %>/edit">Edit</a></p>
+  <p><a href="/events/<%= @event.id %>/invite">Invite</a></p>
 <% else %>
     <p>Event not found</p>
 <% end %>
