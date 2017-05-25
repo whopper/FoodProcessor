@@ -1,0 +1,93 @@
+<!-- Outer box -->
+<div class="form-style-8">
+  <h2 class='acquia-blue'>Let's create your BrownBag Event!</h2>
+  <form>
+
+    <div class='form-group has-feedback'>
+      <input type="text" name="title" id='title_input' placeholder="Title" />
+      <i style='color: gray;' class='glyphicon glyphicon-pencil form-control-feedback'></i>
+    </div>
+
+    <div class='form-group has-feedback'>
+      <input type="text" name="location" id='location_input' placeholder="Location" />
+      <i style='color: gray;' class='glyphicon glyphicon-map-marker form-control-feedback'></i>
+    </div>
+
+    <div class='form-group has-feedback'>
+      <input type="text" name="name" id='name_input' placeholder="Your Name" />
+      <i style='color: gray;' class='glyphicon glyphicon-user form-control-feedback'></i>
+    </div>
+
+    <div class='form-group has-feedback'>
+      <input type="text" name="email" id='email_input' placeholder="Your Email" />
+      <i style='color: gray;' class='glyphicon glyphicon-envelope form-control-feedback'></i>
+    </div>
+
+    <div class='form-group has-feedback'>
+      <div class='input-group date' id='datetimepicker_date'>
+        <input type='text' class="form-control" id='date_input' placeholder='Date'/>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group has-feedback">
+        <div class='input-group date' id='datetimepicker_time'>
+            <input type='text' class="form-control" id='time_input' placeholder='Time'/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-time"></span>
+            </span>
+        </div>
+    </div>
+
+    <input type="button" value="Create!" />
+  </form>
+</div>
+<!--
+    <form class='col-md-6' style='margin-left: 40px;'>
+      <div class='form-group has-feedback'>
+        <input type='title' class='form-control' id='title_input' aria-describedby='titleHelp' placeholder='Title'>
+        <i style='color: gray;' class='glyphicon glyphicon-pencil form-control-feedback'></i>
+      </div>
+      <div class='form-group has-feedback'>
+        <input type='location' class='form-control' id='location_input' aria-describedby='locationHelp' placeholder='Location'>
+        <i style='color: gray;' class='glyphicon glyphicon-map-marker form-control-feedback'></i>
+      </div>
+
+      <div class="form-group col-md-7" style='margin-left: -15px;'>
+          <div class='input-group date' id='datetimepicker_date'>
+              <input type='text' class="form-control" />
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+          </div>
+      </div>
+
+      <div class="form-group col-md-5">
+          <div class='input-group date' id='datetimepicker_time'>
+              <input type='text' class="form-control" />
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+              </span>
+          </div>
+      </div>
+    </form>
+-->
+<script type="text/javascript">
+  $(function () {
+      $('#datetimepicker_date').datetimepicker({
+            format: 'ddd, MMM d, YYYY',
+      });
+  });
+
+  $(function () {
+      $('#datetimepicker_time').datetimepicker({
+            format: 'LT',
+      });
+  });
+
+</script>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link href='/css/general.css' rel='stylesheet' type='text/css'>
