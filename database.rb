@@ -24,7 +24,7 @@ delete '/item/:id' do
   redirect '/'
 end
 
-post '/' do
+post '/events/create' do
   event = Event.new
   event.name = params[:eventname]
   event.date = DateTime.now
