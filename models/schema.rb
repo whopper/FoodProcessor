@@ -48,6 +48,7 @@ end
 class User
   include DataMapper::Resource
 
+  has n, :items
   property :id, Serial
   property :name, Text, required: true
   property :email, Text, required: true, unique: true
