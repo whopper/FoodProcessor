@@ -6,7 +6,7 @@ require_relative 'lib/foodprocessor.rb'
 require_relative 'models/schema.rb'
 
 get '/' do
-  @events = Event.all :order => :id.desc
+  @events = Event.all order: :id.desc
   erb :home
 end
 
@@ -22,7 +22,7 @@ end
 
 get '/item/:id/delete' do
   @item = Item.get params[:id]
-  @title= "Confirm deletion of item ##{params[:id]}"
+  @title = "Confirm deletion of item ##{params[:id]}"
   erb :delete
 end
 
@@ -50,14 +50,14 @@ post '/events/create' do
   owner = Owner.new
   owner.name = 'Will Hopper'
   owner.email = 'willliam.hopper@acquia.com'
-  #owner.save
+  # owner.save
   event.owner = owner
 
   # make a guest
   guest = User.new
   guest.name = 'William Van Hevelingen'
   guest.email = 'william.vanhevelingen@acquia.com'
-  #guest.save
+  # guest.save
   event.guests << guest
 
   # save
@@ -69,4 +69,3 @@ post '/events/create' do
 
   redirect '/events'
 end
-
