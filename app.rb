@@ -62,8 +62,8 @@ post '/events/create' do
   event.link = link
 
   # make an owner
-  owner = User.first(:email => params[:email])
-  if !owner
+  owner = User.first(email: params[:email])
+  unless owner
     owner = Owner.new
     owner.name = params[:name]
     owner.email = params[:email]
