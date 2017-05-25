@@ -50,6 +50,7 @@ get '/events/:id' do
     @owner = Owner.get @event.owner.id
     @link = Link.get @event.link.id
     @guests = User.all(event_id: @event.id)
+    @items = Item.all(event_id: @event.id)
   end
   erb :event
 end
@@ -67,8 +68,20 @@ post '/events/:id/add_ingredients' do
     top_key = temp_hash["item_#{n}"]
     item_hash[temp_hash["item_#{n}"]] = {'quantity' => temp_hash["quantity_#{n}"], 'price' => temp_hash["price_#{n}"], 'required' => temp_hash["required_#{n}"] == 'Required' ? true : false}
   end
+  @event = Event.get params[:id]
+  item_hash.each do |k,v|
+    item = Item.new
+    item.name = k
+    item.quantity = v["quantity"]
+    item.required = v["required"]
+    item.price = v["price"]
+    item.event_id = @event.id
+    item.save
+    @event.items << item
+    @event.save
+  end
 
-  event = Event.get params[:id]
+  redirect "/events/#{params[:id]}"
 end
 
 get '/events/:id/invite' do

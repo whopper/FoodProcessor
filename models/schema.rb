@@ -16,6 +16,7 @@ class Item
   property :id, Serial
   property :name, Text, required: true, unique: true
   property :required, Boolean, required: true, default: false
+  property :price, Float, required: true, default: 0
   property :quantity, Integer, required: true, default: 1
   belongs_to :event
 end
