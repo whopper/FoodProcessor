@@ -1,107 +1,92 @@
 <!-- Outer box -->
- <div class="form-style-8">
-   <% if @event %>
-     <h2 class='acquia-blue'>Event: <%=@event.name %></h2>
-     <h4 style='color:black'>
-       Location: <%= @event.location %><p>
-       Date: <%= @event.date %><p>
-       Organizer: <%= @owner.name %><p>
-       Invite Link: <%= @link.url %><p>
-       Guests: <p>
-     </h4>
-     <body style='color:black'>
-       <table class="table">
-         <thead>
-           <tr>
-             <th>Name</th>
-             <th>Email</th>
-           </tr>
-         </thead>
-         <tbody>
-           <% @guests.each do |guest| %>
-             <tr>
-               <th scope="row"><%= guest.name %></th>
-               <td><%= guest.email %></td>
-             <tr>
-           <% end %>
-         </tbody>
-       </table>
-     </body>
-     <h4 style='color:black'>Items:</h4>
-     <body style='color:black'>
-       <table class="table">
-         <thead>
-           <tr>
-             <th>Name</th>
-             <th>Quantity</th>
-             <th>Required?</th>
-           </tr>
-         </thead>
-         <tbody>
-           <% @items.each do |item| %>
-             <tr>
-               <th scope="row"><%= item.name %></th>
-               <td><%= item.quantity %></td>
-               <td><%= item.required %></td>
-               <% if item.user_id.nil? %>
-                <td style='cursor: pointer;'><button class='open-ClaimModal btn btn-primary' type="button" data-toggle="modal" data-target="#myModal" onclick="document.getElementById('item_id').value = <%= item.id %>">Claim Me!</button></td>
-              <% else %>
-                <td><%= User.get(item.user_id).name %></td>
-              <% end %>
-             <tr>
-           <% end %>
-         </tbody>
-       </table>
-     </body>
- 
-     <a href="/events/<%= @event.id %>/edit" class="btn btn-lg btn-primary">Edit Event</a>
-     <a href="/events/<%= @event.id %>/invite" class="btn btn-lg btn-primary">Invite Guests</a>
-     <a href="/events/<%= @event.id %>/add_ingredients" class="btn btn-lg btn-primary">Add Ingredients</a>
-   </p>
-   <% else %>
-   <h2 class='acquia blue'>Event Not Found</h2>
-     <a href="/events" class="btn btn-lg btn-primary">Return to Events</a>
-   <% end %>
- </div>
+<div class="form-style-8" style='width:60%; height:75%; color: black'>
+  <% if @event %>
+    <h2 class='acquia-blue'><%=@event.name %></h2>
 
-=======
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Claim Item</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <div id='left-row-top' class='row'>
+      <div class='col-md-4' style='border-right: 1px solid lightgray'>
+        <img src='/img/icecream.jpg' class='img-thumbnail' width='200' height='200'>
       </div>
+
+      <div class='col-md-8'>
+        <table class="table table-condensed" style='color: black; font-size: 14px; font-weight: normal; text-shadow: none;'>
+           <thead>
+             <tr>
+               <th>Name</th>
+               <th>Quantity</th>
+               <th>Cost/Unit</th>
+               <th>Required?</th>
+               <th>Claimed</th>
+             </tr>
+           </thead>
+           <tbody>
+             <% @items.each do |item| %>
+                <% if !item.user_id.nil? %>
+                  <tr class='success'>
+                <% else %>
+                  <tr class='info'>
+                <% end %>
+                 <th scope="row"><%= item.name %></th>
+                 <td><%= item.quantity %></td>
+
+                 <td>$<%= item.price %></td>
+                  <% if item.required %>
+                    <td><span class='glyphicon glyphicon-flag' style='color: green; margin-left: 25px;'></span></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+
+                 <% if item.user_id.nil? %>
+                  <td style='cursor: pointer;'><button class='open-ClaimModal btn btn-primary' type="button" data-toggle="modal" data-target="#myModal" onclick="document.getElementById('item_id').value = <%= item.id %>">Claim Me!</button></td>
+                <% else %>
+                  <td><%= User.get(item.user_id).name %></td>
+                <% end %>
+               <tr>
+             <% end %>
+           </tbody>
+         </table>
+      </div>
+    </div>
+
+      <div class='col-md-4' style='margin-top: -150px; margin-left: -5px; border-right: 1px solid lightgray'>
+        <p id='date'>Jul 26<br>
+           12:00 PM
+        </p>
+        <p>Acquia Portland Office<br>
+           By William Hopper
+        </p>
+
+       <a href="/events/<%= @event.id %>/edit" class="btn btn-sm btn-primary">Edit Event</a>
+       <a href="/events/<%= @event.id %>/invite" class="btn btn-sm btn-primary">Invite Guests</a>
+      </div>
+
+    <a href="/events/<%= @event.id %>/add_ingredients" class="btn btn-lg btn-primary">Add Ingredients</a>
+
+  <% else %>
+    <h2 class='acquia blue'>Event Not Found</h2>
+    <a href="/events" class="btn btn-lg btn-primary">Return to Events</a>
+  <% end %>
+
+</div>
+<!-- Modal -->
+<div style='margin-top: 100px;' class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
       <div class="modal-body">
-        <div class="form-style-8">
+         <div class="form-style-8">
           <form method="POST" action='/events/claim/<%= @event.id %>' style='color: black;'>
-
             <input type="hidden" name="item_id" id="item_id" value="">
-
             <div class='form-group has-feedback'>
               <input type="text" name="name" id='name_input' placeholder="Name" />
-              <i style='color: gray;' class='glyphicon glyphicon-pencil form-control-feedback'></i>
+              <i style='color: gray;' class='glyphicon glyphicon-user form-control-feedback'></i>
             </div>
-
             <div class='form-group has-feedback'>
               <input type="text" name="email" id='email_input' placeholder="Email" />
               <i style='color: gray;' class='glyphicon glyphicon-envelope form-control-feedback'></i>
             </div>
-
             <span id='temp_id'></span>
-
             <input type="submit" value="Claim!" />
           </form>
         </div>
-
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
   </div>
 </div>
