@@ -64,6 +64,7 @@ post '/events/claim/:id' do
   # assign/claim ingredients
   @event = Event.get params[:id]
   guest = User.first(email: params[:email])
+  @guests = User.all(event_id: @event.id)
   unless guest
     guest = User.new
     guest.email = params[:email]
@@ -81,7 +82,9 @@ post '/events/claim/:id' do
 
   items = Item.all(event_id: @event.id)
   unclaimed = items.all(user_id: nil)
-  FoodProcessor::Invite.send_email(@event, guest, 'all_claimed') if unclaimed == []
+  @guests.each do |recpt|
+    FoodProcessor::Invite.send_email(@event, recpt, 'all_claimed') if unclaimed == []
+  end
   redirect "/events/#{@event.id}"
 end
 
