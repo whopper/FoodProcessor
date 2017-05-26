@@ -1,7 +1,63 @@
-<% @events.each do |event| %>
-  <%= event.id %>
-  <%= event.name %>
-  <%= event.date %>
-  <%= event.location %>
-  <a href="/events/<%= event.id %>">View</a><p>
-<% end %>
+<script type='text/javascript'>
+  function format_day(date) {
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+    ];
+    var d = new Date(date);
+    return(monthNames[d.getMonth()] + ' ' + d.getDate());
+  }
+
+  function format_time(date) {
+    var d = new Date(date);
+    var hh = d.getHours() + 4;
+    var m = d.getMinutes();
+    var s = d.getSeconds();
+    var dd = "AM";
+    var h = hh;
+
+    if (h >= 12) {
+      h = hh - 12;
+      dd = "PM";
+
+    }
+    if (h == 0) {
+      h = 12;
+    }
+    m = m < 10 ? "0" + m : m;
+
+    s = s < 10 ? "0" + s : s;
+
+    return(h + ':' + m + ' ' + dd);
+    //return date.replace(pattern, replacement);
+  }
+</script>
+
+<div class="form-style-8" style='width:80%; height:75%; color: black;'>
+  <% @events.each do |event| %>
+    <script type='text/javascript'>
+      $( document ).ready(function() {
+        day = format_day('<%= event.date %>');
+        time = format_time('<%= event.date %>');
+        document.getElementById('date_<%=event.id%>').innerHTML = day + '<br>' + time;
+      });
+    </script>
+
+    <div class='col-md-3 well' style='border: 1px solid #67cffc; cursor: pointer; margin-left: 25px;' onclick='location.href="/events/<%= event.id %>"'>
+      <div class='col-md-12' style='margin-top: 5px;'>
+        <% if event.name.match(/[Ww]affle/) %>
+          <img src='/img/waffles.jpg' class='img-thumbnail' style='height:155px;width:200px;' width='200' height='200'>
+        <% elsif event.name.match(/[Ss]andwich/) %>
+          <img src='/img/sandwich.jpg' class='img-thumbnail' style='height:155px;width:200px;' width='200' height='200'>
+        <% else %>
+          <img src='/img/icecream.jpg' class='img-thumbnail' width='200' height='200'>
+        <% end %>
+      </div>
+
+      <p style='font-shadow: none;'><%= event.name %></p>
+      <p id='date_<%=event.id%>' style='text-shadow: none;'></p>
+      <p style='text-shadow: none;'><span class='glyphicon glyphicon-map-marker' style='color: gray;'></span> <%= event.location %><br>
+         By <%= event.owner.name %>
+      </p>
+    </div>
+  <% end %>
+</div>

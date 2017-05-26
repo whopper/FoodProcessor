@@ -167,3 +167,9 @@ post '/events/create' do
   @title = event.name
   redirect "/events/#{event.id}/add_ingredients"
 end
+
+get '/events/:id/delete' do
+  require 'pry' ; binding.pry
+  event = Event.get(params[:id])
+  event.destroy
+end

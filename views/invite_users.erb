@@ -1,11 +1,11 @@
 <!-- Outer box -->
-<div class="form-style-8">
+<div class="form-style-8" style='color:black;'>
   <h2 class='acquia-blue'>Let's invite people to attend your event!</h2>
   <form method="POST" action='/events/<%= @event.id %>/invite' style='color: black;'>
 
     <div class='form-group has-feedback'>
       <input type="text" name="name" id='name_input' placeholder="Enter a name" />
-      <i style='color: gray;' class='glyphicon glyphicon-envelope form-control-feedback'></i>
+      <i style='color: gray;' class='glyphicon glyphicon-user form-control-feedback'></i>
     </div>
 
     <div class='form-group has-feedback'>
@@ -15,4 +15,10 @@
 
     <input type="submit" value="Send!" />
   </form>
+  <hr>
+  <h4>OR</h4>
+  <p>
+    Share with this link!<br>
+    <a href='<%= @event.link.url %>' style='color: #0645AD;'><%= @event.link.url %></a>
+  </p>
 </div>

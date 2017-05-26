@@ -1,11 +1,50 @@
 <!-- Outer box -->
+<script type='text/javascript'>
+  function format_day(date) {
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+    ];
+    var d = new Date(date);
+    return(monthNames[d.getMonth()] + ' ' + d.getDate());
+  }
+
+  function format_time(date) {
+    var d = new Date(date);
+    var hh = d.getHours() + 4;
+    var m = d.getMinutes();
+    var s = d.getSeconds();
+    var dd = "AM";
+    var h = hh;
+
+    if (h >= 12) {
+      h = hh - 12;
+      dd = "PM";
+
+    }
+    if (h == 0) {
+      h = 12;
+    }
+    m = m < 10 ? "0" + m : m;
+
+    s = s < 10 ? "0" + s : s;
+
+    return(h + ':' + m + ' ' + dd);
+    //return date.replace(pattern, replacement);
+  }
+</script>
 <div class="form-style-8" style='width:60%; height:75%; color: black'>
   <% if @event %>
     <h2 class='acquia-blue'><%=@event.name %></h2>
 
     <div id='left-row-top' class='row'>
       <div class='col-md-4' style='border-right: 1px solid lightgray'>
-        <img src='/img/icecream.jpg' class='img-thumbnail' width='200' height='200'>
+        <% if @event.name.match(/[Ww]affle/) %>
+          <img src='/img/waffles.jpg' class='img-thumbnail' style='height:155px;width:200px;' width='200' height='200'>
+        <% elsif @event.name.match(/[Ss]andwich/) %>
+          <img src='/img/sandwich.jpg' class='img-thumbnail' style='height:155px;width:200px;' width='200' height='200'>
+        <% else %>
+          <img src='/img/icecream.jpg' class='img-thumbnail' width='200' height='200'>
+        <% end %>
       </div>
 
       <div class='col-md-8'>
@@ -29,9 +68,9 @@
                  <th scope="row"><%= item.name %></th>
                  <td><%= item.quantity %></td>
 
-                 <td>$<%= item.price %></td>
+                 <td>$<%= "%.2f" % (item.price) %></td>
                   <% if item.required %>
-                    <td><span class='glyphicon glyphicon-flag' style='color: green; margin-left: 25px;'></span></td>
+                    <td><span class='glyphicon glyphicon-ok' style='color: green; margin-left: 25px;'></span></td>
                   <% else %>
                     <td></td>
                   <% end %>
@@ -48,12 +87,10 @@
       </div>
     </div>
 
-      <div class='col-md-4' style='margin-top: -150px; margin-left: -5px; border-right: 1px solid lightgray'>
-        <p id='date'>Jul 26<br>
-           12:00 PM
-        </p>
-        <p>Acquia Portland Office<br>
-           By William Hopper
+      <div style='width: 257px; position: absolute; top: 370px; left: 260px; border-right: 1px solid lightgray'>
+        <p id='date' style='text-shadow: none;'></p>
+        <p style='text-shadow: none;'><span class='glyphicon glyphicon-map-marker' style='color: gray;'></span> <%= @event.location %><br>
+           By <%= @event.owner.name %>
         </p>
 
        <a href="/events/<%= @event.id %>/edit" class="btn btn-sm btn-primary">Edit Event</a>
@@ -90,3 +127,11 @@
       </div>
   </div>
 </div>
+
+<script type='text/javascript'>
+  $( document ).ready(function() {
+    day = format_day('<%= @event.date %>');
+    time = format_time('<%= @event.date %>');
+    document.getElementById('date').innerHTML = day + '<br>' + time;
+  });
+</script>
